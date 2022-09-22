@@ -1,0 +1,30 @@
+#!/bin/bash
+#Install and Configure Java 8
+echo "Creating Directory"
+sudo mkdir /usr/lib/jvm
+echo "Changing Directory"
+cd /usr/lib/jvm
+echo "Getting Update"
+sudo apt-get update -y
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
+sudo apt-get install htop nano zip unzip tar curl -y
+jdktar=jdk-14.0.1_linux-x64_bin.tar.gz
+jdkv=jdk-14.0.1
+wget http://fileserver.digicode.pw/c2Ftc2FyaWpvc2hpeWFzYXJpbWFyaW1vc2hpeWFoYWk/packages/$jdktar
+tar xvf $jdktar
+sudo update-alternatives --config java
+echo "Configuring JAVA"
+echo "J2SDKDIR=\"/usr/lib/jvm/$jdkv\"
+J2REDIR=\"/usr/lib/jvm/$jdkv/jre\"
+JAVA_HOME=\"/usr/lib/jvm/$jdkv\"
+DERBY_HOME=\"/usr/lib/jvm/$jdk1v/db\"
+" >> /etc/environment
+sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/$jdkv/bin/java" 0
+sudo update-alternatives --install "/usr/bin/javac" "javac" "/usr/lib/jvm/$jdkv/bin/javac" 0
+sudo update-alternatives --set java /usr/lib/jvm/jdkv/bin/java
+sudo update-alternatives --set javac /usr/lib/jvm/jdkv/bin/javac
+update-alternatives --list java
+update-alternatives --list javac
+echo "Installation of Oracle 8 is successfully done!"
+echo "Below you can see the installed java version:"
+java -version
